@@ -1,0 +1,68 @@
+<html>
+
+<script src="genetic.js"></script>
+<script>
+
+//Add 2 nums to get 21
+
+var fitness = function(options){
+  var x = options.num1;
+  var y = options.num2;
+  var error = Math.abs(21-(x+y));
+  if(error == 0){
+    return 2;
+  }
+  return 1/error;
+}
+
+var makeOrganism = function(){
+  var r1 = Math.round(Math.random()*21);
+  var r2 = Math.round(Math.random()*21);
+
+  return {num1:r1,num2:r2};
+}
+
+var test = new GeneticJS(makeOrganism,fitness,{populationSize:1000});
+test.evaluate(100);
+console.log(test.population);
+
+
+
+
+
+//Word Finder
+
+var fitnessword = function(options){
+  var desired="hello";
+  var str = options.str;
+  correct = 0;
+  for(var i=0;i<5;i++){
+    if(str[i]==desired[i]){
+      correct++;
+    }
+  }
+  return correct/5;
+}
+
+var makeOrganismword = function(){
+  var out = [];
+
+  var possible = "abcdefghijklmnopqrstuvwxyz";
+
+  for (var i=0;i<5;i++){
+    out.push(possible[Math.round(Math.random()*possible.length)]);
+  }
+  return {str:out};
+}
+
+var testword = new GeneticJS(makeOrganismword,fitnessword,{populationSize:1000});
+testword.evaluate(100);
+console.log(testword.population);
+
+
+
+
+
+
+</script>
+</html>
